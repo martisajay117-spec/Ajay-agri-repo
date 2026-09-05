@@ -39,7 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
   const [authModal, setAuthModal] = useState<AuthModalMode>(null);
   const [initialRole, setInitialRole] = useState<UserRole>('farmer');
-  const [currentView, setCurrentView] = useState<'home' | 'dashboard' | 'pending_view'>('dashboard');
+  const [currentView, setCurrentView] = useState<'home' | 'dashboard' | 'pending_view'>('home');
   const [pendingMessage, setPendingMessage] = useState<string | null>(null);
 
   // Sync auth state listener
@@ -64,9 +64,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setUserProfile(DEMO_FARMER_PROFILE);
         }
       } else {
-        // Fallback to demo farmer so that the preview loads the interactive Fields dashboard directly
+        // Unauthenticated users start at the website landing page
         setUserProfile(DEMO_FARMER_PROFILE);
-        setCurrentView('dashboard');
+        setCurrentView('home');
       }
       setLoading(false);
     });

@@ -92,22 +92,27 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
 
   return (
     <>
-      <aside className="w-64 bg-[#0d381a] text-white flex flex-col justify-between shrink-0 h-screen sticky top-0 border-r border-[#144823] select-none">
-        {/* Top Logo */}
-        <div className="p-4 sm:p-5 pb-3 flex items-center justify-between">
+      <aside className="w-64 bg-[#0d381a] text-white flex flex-col justify-between shrink-0 h-screen sticky top-0 shadow-lg select-none">
+        {/* Top Logo & Branding */}
+        <div className="p-4 sm:p-5 pb-3 flex items-center justify-between border-b border-[#1b4d29]">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#22c55e] flex items-center justify-center text-[#0d381a] font-black shadow-sm">
-              <Sprout className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 rounded-lg bg-[#22c55e] flex items-center justify-center text-white shrink-0 shadow-sm">
+              <Sprout className="w-4.5 h-4.5" />
             </div>
-            <span className="text-xl font-black tracking-tight text-white font-sans">
-              AgriN
-            </span>
+            <div>
+              <span className="text-lg font-black tracking-tight text-white font-sans">
+                AgriN
+              </span>
+              <span className="block text-[10px] text-emerald-300 font-medium">
+                Fields Intelligence
+              </span>
+            </div>
           </div>
 
           {onCloseMobileMenu && (
             <button
               onClick={onCloseMobileMenu}
-              className="p-1.5 text-slate-300 hover:text-white rounded-lg hover:bg-[#134421] transition-colors md:hidden"
+              className="p-1.5 text-emerald-200 hover:text-white rounded-lg hover:bg-[#154723] transition-colors md:hidden"
               title="Close menu"
             >
               <X className="w-5 h-5" />
@@ -124,55 +129,52 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
               <button
                 key={item.id}
                 onClick={() => onSelectTab(item.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs transition-all ${
                   isActive
-                    ? 'bg-[#1b5028] text-white shadow-xs font-bold'
-                    : 'text-[#8cb899] hover:text-white hover:bg-[#124220]'
+                    ? 'bg-[#22c55e] text-[#0d381a] font-bold shadow-sm'
+                    : 'text-emerald-100 hover:text-white hover:bg-[#154723] font-medium'
                 }`}
               >
-                <div className="flex items-center gap-3">
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-[#8cb899]'}`} />
+                <div className="flex items-center gap-2.5">
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-[#0d381a]' : 'text-emerald-300'}`} />
                   <span>{item.label}</span>
                 </div>
-                {isActive && (item.id === 'settings' || item.id === 'community' || item.id === 'marketplace' || item.id === 'reports' || item.id === 'crop_health') && (
-                  <Star className="w-3.5 h-3.5 fill-white text-white shrink-0" />
-                )}
               </button>
             );
           })}
         </div>
 
         {/* Bottom Section: AI Assistant Box + User Profile */}
-        <div className="p-3 border-t border-[#144823] space-y-2.5">
+        <div className="p-3 border-t border-[#1b4d29] space-y-2">
           {/* AI Assistant Widget Box */}
           <div
             onClick={() => setAiAssistantOpen(true)}
-            className="p-3 bg-[#134421] hover:bg-[#185329] rounded-2xl border border-[#1d5c2f] flex items-center justify-between cursor-pointer transition-all group"
+            className="p-2.5 bg-[#144923] hover:bg-[#1c5d2e] rounded-xl border border-[#256c3a]/70 flex items-center justify-between cursor-pointer transition-all group"
           >
             <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-300 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                <Sprout className="w-4 h-4" />
+              <div className="w-6 h-6 rounded-md bg-[#22c55e] text-[#0d381a] flex items-center justify-center shrink-0">
+                <Sprout className="w-3.5 h-3.5" />
               </div>
               <div className="text-left">
-                <div className="text-xs font-bold text-white group-hover:text-emerald-200">
+                <div className="text-xs font-bold text-white">
                   AI Assistant
                 </div>
-                <div className="text-[10px] text-[#8cb899]">
+                <div className="text-[10px] text-emerald-200">
                   Ask AgriN anything
                 </div>
               </div>
             </div>
-            <ChevronRight className="w-3.5 h-3.5 text-[#8cb899] group-hover:text-white group-hover:translate-x-0.5 transition-all" />
+            <ChevronRight className="w-3.5 h-3.5 text-emerald-300 group-hover:translate-x-0.5 transition-all" />
           </div>
 
           {/* User Profile Card */}
           <div className="relative">
             <button
               onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-              className="w-full flex items-center justify-between p-2 rounded-xl hover:bg-[#124220] transition-colors text-left"
+              className="w-full flex items-center justify-between p-2 rounded-xl hover:bg-[#154723] transition-colors text-left"
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-8 h-8 rounded-full overflow-hidden bg-emerald-800 border border-emerald-600/50 shrink-0">
+                <div className="w-7 h-7 rounded-full overflow-hidden bg-emerald-900 border border-emerald-600 shrink-0">
                   <img
                     src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=150&h=150&crop=faces&q=80"
                     alt="Agriculture Farmer profile avatar"
@@ -181,15 +183,15 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                   />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-xs font-bold text-white truncate leading-tight">
+                  <div className="text-xs font-semibold text-white truncate leading-tight">
                     {userProfile?.fullName || 'Ramesh Verma'}
                   </div>
-                  <div className="text-[10px] text-[#8cb899] truncate">
+                  <div className="text-[10px] text-emerald-300 truncate">
                     Smallholder Farmer
                   </div>
                 </div>
               </div>
-              <ChevronDown className="w-3.5 h-3.5 text-[#8cb899] shrink-0" />
+              <ChevronDown className="w-3.5 h-3.5 text-emerald-300 shrink-0" />
             </button>
 
             {/* Profile Dropdown Menu */}
@@ -199,8 +201,8 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                   className="fixed inset-0 z-40"
                   onClick={() => setProfileDropdownOpen(false)}
                 />
-                <div className="absolute bottom-14 left-0 w-full bg-slate-900 text-white rounded-2xl shadow-2xl border border-slate-700 py-1.5 z-50 text-xs">
-                  <div className="px-3 py-1.5 text-[10px] text-slate-400 border-b border-slate-800">
+                <div className="absolute bottom-14 left-0 w-full bg-[#0d381a] text-white rounded-2xl shadow-2xl border border-emerald-700/60 py-1.5 z-50 text-xs">
+                  <div className="px-3 py-1.5 text-[10px] text-emerald-300 border-b border-[#1b4d29]">
                     Logged in as <strong>{currentUser?.email || userProfile?.emailOrPhone}</strong>
                   </div>
                   <button
@@ -208,17 +210,17 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                       setProfileDropdownOpen(false);
                       setCurrentView('home');
                     }}
-                    className="w-full px-3 py-2 text-left hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                    className="w-full px-3 py-2 text-left hover:bg-[#154723] flex items-center gap-2 text-emerald-100 hover:text-white font-medium"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
-                    <span>Back to Landing</span>
+                    <span>Back to Website</span>
                   </button>
                   <button
                     onClick={() => {
                       setProfileDropdownOpen(false);
                       logout();
                     }}
-                    className="w-full px-3 py-2 text-left hover:bg-red-950/50 flex items-center gap-2 text-red-400 hover:text-red-300 font-bold"
+                    className="w-full px-3 py-2 text-left hover:bg-red-950/60 flex items-center gap-2 text-red-300 hover:text-red-200 font-bold"
                   >
                     <LogOut className="w-3.5 h-3.5" />
                     <span>Log Out</span>
@@ -235,19 +237,19 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-lg shadow-2xl border border-slate-200 overflow-hidden flex flex-col h-[520px]">
             {/* Header */}
-            <div className="p-4 bg-[#0d381a] text-white flex items-center justify-between">
+            <div className="p-4 bg-slate-900 border-b border-slate-800 text-white flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center text-white">
+                <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white">
                   <Sprout className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="text-sm font-bold">AgriN Farm Intelligence AI</h3>
-                  <p className="text-[10px] text-emerald-200">Grounded in live Sentinel-2 & soil sensor feeds</p>
+                  <p className="text-[10px] text-slate-400">Grounded in live Sentinel-2 & soil sensor feeds</p>
                 </div>
               </div>
               <button
                 onClick={() => setAiAssistantOpen(false)}
-                className="p-1.5 text-emerald-200 hover:text-white rounded-full"
+                className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>

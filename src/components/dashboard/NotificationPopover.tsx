@@ -36,12 +36,12 @@ export const NotificationPopover: React.FC<NotificationPopoverProps> = ({
         id="dashboard-notification-bell-btn"
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors focus:outline-none"
+        className="relative w-8.5 h-8.5 rounded-lg bg-white hover:bg-slate-50 border border-slate-300 flex items-center justify-center text-slate-600 hover:text-slate-900 shadow-2xs transition-colors focus:outline-none"
         title="Field Notifications & AI Alerts"
       >
-        <Bell className="w-5 h-5" />
+        <Bell className="w-3.5 h-3.5" />
         {unreadCount > 0 && (
-          <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-[9px] font-extrabold text-white ring-2 ring-white animate-pulse">
+          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#1e5128] text-[9px] font-mono font-bold text-white ring-2 ring-white">
             {unreadCount}
           </span>
         )}
@@ -50,11 +50,11 @@ export const NotificationPopover: React.FC<NotificationPopoverProps> = ({
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-xl border border-slate-200/90 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
-            <div className="px-4 py-2.5 border-b border-slate-100 flex items-center justify-between">
+          <div className="absolute right-0 mt-1.5 w-80 sm:w-96 bg-white rounded-lg shadow-xl border border-slate-200 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-100">
+            <div className="px-4 py-2 border-b border-slate-100 flex items-center justify-between">
               <div>
                 <h4 className="text-xs font-bold text-slate-900">Field Telemetry Alerts</h4>
-                <p className="text-[10px] text-slate-500">
+                <p className="text-[10px] text-slate-500 font-mono">
                   {unreadCount > 0 ? `${unreadCount} unread notifications` : 'All caught up'}
                 </p>
               </div>
@@ -63,7 +63,7 @@ export const NotificationPopover: React.FC<NotificationPopoverProps> = ({
                 <button
                   type="button"
                   onClick={onMarkAllAsRead}
-                  className="text-[10px] font-bold text-emerald-700 hover:text-emerald-800 hover:underline"
+                  className="text-[10px] font-semibold text-[#1e5128] hover:underline"
                 >
                   Mark all as read
                 </button>

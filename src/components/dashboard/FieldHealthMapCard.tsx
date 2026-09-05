@@ -17,21 +17,24 @@ export const FieldHealthMapCard: React.FC<FieldHealthMapCardProps> = ({ farm }) 
 
   return (
     <>
-      <div className="bg-white rounded-xl p-4 border border-slate-200 flex flex-col justify-between relative h-full min-h-[360px]">
+      <div className="bg-white rounded-xl p-5 border border-slate-200 flex flex-col justify-between relative h-full min-h-[380px] shadow-2xs">
         {/* Top Header */}
         <div>
-          <div className="flex items-center justify-between pb-2 border-b border-slate-100 mb-2.5">
+          <div className="flex items-start justify-between pb-3 border-b border-slate-100 mb-2.5">
             <div className="flex items-center gap-1.5">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">Sentinel-2 NDVI Canopy</h3>
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">Sentinel-2 NDVI Canopy</h3>
+                <p className="text-[11px] font-mono text-slate-500 mt-0.5">10m Ground Resolution • Tile T43RFS</p>
+              </div>
               <button
                 onClick={() => setShowInfo(!showInfo)}
                 title="Spectral band methodology"
-                className="text-slate-400 hover:text-slate-600 focus:outline-none"
+                className="text-slate-400 hover:text-slate-600 focus:outline-none ml-1"
               >
                 <Info className="w-3.5 h-3.5" />
               </button>
             </div>
-            <div className="text-[11px] font-mono text-slate-600 bg-slate-50 px-2 py-0.5 rounded border border-slate-200 flex items-center gap-1.5">
+            <div className="text-[11px] font-mono text-slate-600 bg-slate-50 px-2 py-0.5 rounded border border-slate-200 flex items-center gap-1.5 shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-[#1e5128]" />
               <span>10m BOA L2A</span>
             </div>

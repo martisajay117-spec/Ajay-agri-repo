@@ -11,6 +11,7 @@ import {
   Menu,
   Check,
   Download,
+  ArrowLeft,
   FileSpreadsheet,
   FileText,
   Radio,
@@ -77,7 +78,7 @@ const DEFAULT_FARM: Farm = {
 };
 
 export const Dashboard: React.FC = () => {
-  const { userProfile, currentUser } = useAuth();
+  const { userProfile, currentUser, setCurrentView } = useAuth();
 
   // Role Detection
   const role = userProfile?.role || 'farmer';
@@ -355,13 +356,13 @@ export const Dashboard: React.FC = () => {
           <div className="w-7 h-7 rounded-lg bg-[#22c55e] flex items-center justify-center text-white">
             <Sprout className="w-4 h-4" />
           </div>
-          <span className="font-black text-lg text-white">AgriN</span>
+          <span className="font-bold text-base tracking-tight text-white">AgriN</span>
         </div>
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="p-1.5 text-white hover:bg-[#134421] rounded-lg"
+          className="p-1.5 text-white hover:bg-[#134421] rounded-lg transition-colors"
         >
-          <Menu className="w-6 h-6" />
+          <Menu className="w-5 h-5" />
         </button>
       </div>
 
@@ -424,26 +425,23 @@ export const Dashboard: React.FC = () => {
           ) : (
             <>
               {/* Top Dashboard Header Row */}
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-1 border-b border-slate-200/80">
-                {/* Left: Operational Title & Field Specs */}
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3 border-b border-slate-200">
+                {/* Left: Title & Field Specs */}
                 <div>
                   <div className="flex items-center gap-2.5 flex-wrap">
                     <h1 className="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">
                       {activeFarm?.farmName || 'Field Operations Dashboard'}
                     </h1>
-                    <span className="text-[11px] font-mono font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-300">
+                    <span className="text-xs font-medium text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
                       {activeFarm?.farmSize || '25 Acres'} • {activeFarm?.cropType || 'Wheat'}
                     </span>
-                    <span className="text-[11px] font-mono text-slate-500 hidden sm:inline">
-                      {activeFarm?.lat?.toFixed(4) || '30.9010'}°N, {activeFarm?.lng?.toFixed(4) || '75.8573'}°E
-                    </span>
                   </div>
-                  <p className="text-xs text-slate-500 font-normal mt-0.5">
-                    Field operations, vegetative density index (NDVI), and wireless soil stratigraphy
+                  <p className="text-xs text-slate-500 font-normal mt-1">
+                    Real-time field operations, Sentinel-2 vegetative density index (NDVI), and soil intelligence
                   </p>
                 </div>
 
-                {/* Right: Controls (Farm Selector, Date Range, Exports, Threshold Alerts, Notifications) */}
+                {/* Right: Controls (Farm Selector, Notifications, Help) */}
                 <div className="flex items-center gap-2 flex-wrap">
                   {/* Farm Selector */}
                   <FarmSelector
@@ -452,83 +450,6 @@ export const Dashboard: React.FC = () => {
                     onSelectFarm={(f) => setActiveFarm(f)}
                     onOpenAddModal={() => setIsAddFarmOpen(true)}
                   />
-
-                  {/* Date Range Dropdown */}
-                  <div className="relative">
-                    <button
-                      onClick={() => setDateRangeOpen(!dateRangeOpen)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg text-xs font-medium text-slate-700 transition-colors shadow-2xs"
-                    >
-                      <Calendar className="w-3.5 h-3.5 text-slate-500" />
-                      <span className="font-mono text-[11px]">{selectedDateRange}</span>
-                      <ChevronDown className="w-3 h-3 text-slate-400" />
-                    </button>
-
-                    {dateRangeOpen && (
-                      <>
-                        <div
-                          className="fixed inset-0 z-30"
-                          onClick={() => setDateRangeOpen(false)}
-                        />
-                        <div className="absolute right-0 mt-1 w-52 bg-white rounded-lg shadow-lg border border-slate-200 py-1 z-40 text-xs">
-                          <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
-                            Telemetry Window
-                          </div>
-                          {[
-                            'Last 24h',
-                            '7D (Last 7 Days)',
-                            '30D (Monthly View)',
-                            'Current Season (Nov–May)',
-                            'Custom Range...',
-                          ].map((range) => (
-                            <button
-                              key={range}
-                              onClick={() => {
-                                setSelectedDateRange(range);
-                                setDateRangeOpen(false);
-                              }}
-                              className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 flex items-center justify-between text-xs ${
-                                selectedDateRange === range ? 'font-semibold text-slate-900 bg-slate-100' : 'text-slate-700'
-                              }`}
-                            >
-                              <span>{range}</span>
-                              {selectedDateRange === range && <Check className="w-3.5 h-3.5 text-slate-800" />}
-                            </button>
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Export Telemetry Controls */}
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={handleExportCsv}
-                      title="Export Raw Field Telemetry to CSV"
-                      className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg text-xs font-medium text-slate-700 transition-colors shadow-2xs"
-                    >
-                      <FileSpreadsheet className="w-3.5 h-3.5 text-slate-600" />
-                      <span className="hidden sm:inline">CSV</span>
-                    </button>
-                    <button
-                      onClick={() => setPdfReportOpen(true)}
-                      title="View & Export Agronomic PDF Report"
-                      className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg text-xs font-medium text-slate-700 transition-colors shadow-2xs"
-                    >
-                      <FileText className="w-3.5 h-3.5 text-slate-600" />
-                      <span className="hidden sm:inline">Report</span>
-                    </button>
-                  </div>
-
-                  {/* Quick Threshold Alerts Button */}
-                  <button
-                    onClick={() => setThresholdModalOpen(true)}
-                    title="Telemetry Threshold Rules & Triggers"
-                    className="flex items-center gap-1 px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100/80 border border-amber-300 text-amber-900 rounded-lg text-xs font-medium transition-colors"
-                  >
-                    <AlertTriangle className="w-3.5 h-3.5 text-amber-700" />
-                    <span className="text-[11px] font-mono font-bold">1 Alert</span>
-                  </button>
 
                   {/* Notification Bell */}
                   <NotificationPopover
@@ -540,89 +461,12 @@ export const Dashboard: React.FC = () => {
                   {/* Help Guide */}
                   <button
                     onClick={() => setHelpModalOpen(true)}
-                    title="Hardware Manual & Diagnostics"
-                    className="w-8 h-8 rounded-lg bg-white hover:bg-slate-50 border border-slate-300 flex items-center justify-center text-slate-600 hover:text-slate-900 shadow-2xs transition-colors"
+                    title="User Manual & Help"
+                    className="w-8.5 h-8.5 rounded-lg bg-white hover:bg-slate-50 border border-slate-300 flex items-center justify-center text-slate-600 hover:text-slate-900 shadow-2xs transition-colors"
                   >
-                    <HelpCircle className="w-3.5 h-3.5" />
+                    <HelpCircle className="w-4 h-4" />
                   </button>
                 </div>
-              </div>
-
-              {/* Hardware Telemetry Bar (Authentic Operational Agtech Context) */}
-              <div className="bg-slate-50 rounded-lg border border-slate-200 px-3.5 py-2 flex items-center justify-between gap-3 flex-wrap text-xs text-slate-600">
-                <div className="flex items-center gap-4 flex-wrap">
-                  {/* Gateway Status */}
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-[#1e5128]" />
-                    <span className="font-semibold text-slate-700">Gateway:</span>
-                    <span className="font-mono text-slate-800">LoRa-GW2</span>
-                    <span className="text-[10px] text-slate-400">(915 MHz)</span>
-                  </div>
-
-                  {/* Primary Sensor Probe */}
-                  <div className="flex items-center gap-1.5 hidden sm:flex">
-                    <Cpu className="w-3.5 h-3.5 text-slate-500" />
-                    <span className="text-slate-500">Probe:</span>
-                    <span className="font-mono font-semibold text-slate-800">#SN-704-B</span>
-                    <span className="text-[10px] text-slate-500">[0–60cm Tri-Depth]</span>
-                  </div>
-
-                  {/* Last Sync */}
-                  <div className="flex items-center gap-1.5">
-                    <Radio className="w-3.5 h-3.5 text-slate-500" />
-                    <span className="text-slate-500">Sync:</span>
-                    <span className="font-mono font-semibold text-slate-800">{lastSyncTime}</span>
-                    <button
-                      onClick={handleRefreshTelemetry}
-                      title="Poll latest LoRaWAN packet"
-                      className="text-slate-400 hover:text-slate-700 p-0.5"
-                    >
-                      <RefreshCw className={`w-3 h-3 ${isSyncing ? 'animate-spin text-slate-700' : ''}`} />
-                    </button>
-                  </div>
-
-                  {/* Battery Voltage */}
-                  <div className="flex items-center gap-1.5">
-                    <Battery className="w-3.5 h-3.5 text-[#1e5128]" />
-                    <span className="font-mono text-slate-800">3.92V</span>
-                    <span className="text-[10px] text-slate-500">(94%)</span>
-                  </div>
-
-                  {/* RF Signal Strength */}
-                  <div className="flex items-center gap-1.5 hidden md:flex">
-                    <Wifi className="w-3.5 h-3.5 text-slate-500" />
-                    <span className="text-slate-500">RSSI:</span>
-                    <span className="font-mono text-slate-800">-78 dBm</span>
-                    <span className="text-[10px] text-slate-400">SNR +9.2dB</span>
-                  </div>
-                </div>
-
-                {/* Quick Calibration Link */}
-                <button
-                  onClick={() => setThresholdModalOpen(true)}
-                  className="text-[11px] font-medium text-slate-600 hover:text-slate-900 flex items-center gap-1 hover:underline"
-                >
-                  <SlidersHorizontal className="w-3 h-3" />
-                  <span>Threshold Rules</span>
-                </button>
-              </div>
-
-              {/* Active Threshold Alert Banner */}
-              <div className="bg-amber-50/80 border border-amber-200 rounded-lg px-3 py-2 flex items-center justify-between text-xs text-amber-950 flex-wrap gap-2">
-                <div className="flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
-                  <div>
-                    <span className="font-semibold text-amber-900">Telemetry Threshold Alert:</span>
-                    <span className="font-mono text-amber-800 ml-1.5">Zone 3 Moisture at 21.4%</span>
-                    <span className="text-amber-700 ml-1 text-[11px]">(&lt; 25.0% threshold). Automated drip irrigation triggered for 18:00 UTC.</span>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setThresholdModalOpen(true)}
-                  className="text-[11px] font-semibold text-amber-900 hover:text-amber-950 px-2 py-1 rounded bg-amber-100/80 border border-amber-300 transition-colors"
-                >
-                  Configure Rules
-                </button>
               </div>
 
               {/* Loading Skeleton */}
@@ -657,52 +501,46 @@ export const Dashboard: React.FC = () => {
                 /* ======================================================== */
                 /* 6-CARD DASHBOARD GRID (2 ROWS × 3 COLUMNS)               */
                 /* ======================================================== */
-                <div className="space-y-4">
-                  {/* Row 1: Field Health Map, Soil Health Overview, Weather Forecast */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
-                    {/* Card 1: Field Health Map (NDVI) */}
-                    <div className="h-full">
-                      <FieldHealthMapCard farm={activeFarm} />
-                    </div>
-
-                    {/* Card 2: Soil Health Overview */}
-                    <div className="h-full">
-                      <SoilHealthCard farm={activeFarm} />
-                    </div>
-
-                    {/* Card 3: Weather Forecast */}
-                    <div className="h-full">
-                      <WeatherCard
-                        weather={weather}
-                        locationName={activeFarm.location}
-                      />
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
+                  {/* Card 1: Field Health Map (NDVI) */}
+                  <div className="h-full">
+                    <FieldHealthMapCard farm={activeFarm} />
                   </div>
 
-                  {/* Row 2: Crop Health Trend, AI Advisory, Crop Disease Diagnostic */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
-                    {/* Card 4: Crop Health Trend (NDVI) */}
-                    <div className="h-full">
-                      <CropHealthTrendChart history={fieldHistory} />
-                    </div>
+                  {/* Card 2: Soil Health Overview */}
+                  <div className="h-full">
+                    <SoilHealthCard farm={activeFarm} />
+                  </div>
 
-                    {/* Card 5: AI Advisory */}
-                    <div className="h-full">
-                      <AiAdvisoryCard
-                        farmId={activeFarm.id}
-                        recommendations={recommendations}
-                        onToggleStatus={handleToggleRec}
-                      />
-                    </div>
+                  {/* Card 3: Weather Forecast */}
+                  <div className="h-full">
+                    <WeatherCard
+                      weather={weather}
+                      locationName={activeFarm.location}
+                    />
+                  </div>
 
-                    {/* Card 6: Crop Disease Diagnostic */}
-                    <div className="h-full">
-                      <CropDiagnosticCard
-                        farmId={activeFarm.id}
-                        diagnostics={diagnostics}
-                        onSaveDiagnosis={handleSaveDiagnosis}
-                      />
-                    </div>
+                  {/* Card 4: Crop Health Trend (NDVI) */}
+                  <div className="h-full">
+                    <CropHealthTrendChart history={fieldHistory} />
+                  </div>
+
+                  {/* Card 5: AI Advisory */}
+                  <div className="h-full">
+                    <AiAdvisoryCard
+                      farmId={activeFarm.id}
+                      recommendations={recommendations}
+                      onToggleStatus={handleToggleRec}
+                    />
+                  </div>
+
+                  {/* Card 6: Crop Disease Diagnostic */}
+                  <div className="h-full">
+                    <CropDiagnosticCard
+                      farmId={activeFarm.id}
+                      diagnostics={diagnostics}
+                      onSaveDiagnosis={handleSaveDiagnosis}
+                    />
                   </div>
                 </div>
               )}

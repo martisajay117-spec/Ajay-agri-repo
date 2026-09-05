@@ -56,17 +56,17 @@ export const CropHealthTrendChart: React.FC<CropHealthTrendChartProps> = ({
   const deltaNdvi = Number((latestNdvi - initialNdvi).toFixed(2));
 
   return (
-    <div className="bg-white rounded-xl p-4 border border-slate-200 flex flex-col justify-between h-full min-h-[360px]">
+    <div className="bg-white rounded-xl p-5 border border-slate-200 flex flex-col justify-between h-full min-h-[380px] shadow-2xs">
       {/* Header with Title and Range Dropdown */}
       <div>
-        <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+        <div className="flex items-start justify-between pb-3 border-b border-slate-100">
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">Vegetation Index Trend</h3>
             <p className="text-[11px] font-mono text-slate-500 mt-0.5">Sentinel-2 Surface Reflectance (L2A)</p>
           </div>
 
           {/* Segmented / Dropdown Selector */}
-          <div className="relative">
+          <div className="relative shrink-0">
             <button
               type="button"
               onClick={() => setRangeDropdownOpen(!rangeDropdownOpen)}
