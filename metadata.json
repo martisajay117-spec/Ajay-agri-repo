@@ -1,0 +1,7 @@
+{
+  "name": "AgriN - AI Agriculture Intelligence Platform",
+  "description": "Intelligence platform driving regenerative agriculture and food security across BRICS nations with role-based authentication.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
