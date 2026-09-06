@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../firebase/config';
-import { fetchUserProfile, logoutUser, setVerificationStatus } from '../firebase/authService';
+import { User } from 'firebase/auth';
+import { fetchUserProfile, logoutUser, setVerificationStatus, onAuthChange } from '../firebase/authService';
 import { AuthModalMode, UserProfile, UserRole, VerificationStatus } from '../types/user';
 
 interface AuthContextType {
@@ -44,7 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Sync auth state listener
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthChange(async (user) => {
       setCurrentUser(user);
       if (user) {
         try {
